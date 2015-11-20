@@ -30,7 +30,7 @@
 {% endblock %}
 ```
 
-과 같은 형태로 만들어 index.html에서 {% block main %}{% endblock %} 영역만 덮어씌워주면 됩니다.
+과 같은 형태로 작성하면 됩니다. 이때 실제 출력되는 결과물은 index.html에서 {% block main %}{% endblock %} 영역이 덮어씌워지는 형태가 됩니다.
 
 
 # Bootstrap 
