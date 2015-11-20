@@ -26,3 +26,20 @@ html {
   padding-top: 15px;
   padding-bottom: 5px;
 }
+
+#header a {
+  color: white;
+}
+#header a:link {
+  color: white;
+}
+#header a:visited {
+  color: white;
+}
+#header a:active {
+  color: white;
+}
+#header a:hover {
+  color: white;
+  text-decoration: none;
+}
