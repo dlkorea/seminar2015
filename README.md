@@ -1,7 +1,3 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
 # template 문법 관련
 실 서비스를 만들때 대부분의 경우 하나의 메뉴는 하나의 레이 아웃을 공유합니다. 
 이 때 매 템플릿마다 레이아웃 작업을 중복해서 할 필요 없이 하나의 레이아웃 파일을 만들어 두고 반복 사용할 수 있습니다.
