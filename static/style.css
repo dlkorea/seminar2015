@@ -66,3 +66,10 @@ html {
 #read_title_area hr {
   margin-top: 10px;
 }
+#read_content {
+  margin: 30px 10px;
+}
+#read_button_group {
+  margin-right: 20px;
+  text-align: center;
+}
