@@ -69,7 +69,6 @@ Bootstrap을 개발중인 사이트에 적용하기 위해서는 크게 두가�
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 ```
-
 (<!-- ㄴㅇㄹ --> 과 같은 형태는 html 내의 주석에 해당하므로 굳이 삽입하지 않으셔도 무방합니다.)
 
 나머지 내용들은 Bootstrap 홈페이지(http://bootstrapk.com)에서 직접 공부해보세요. 기본적으로 html 태그에 class만 추가하는 방식이므로 조금만 익숙해지시면 큰 어려움 없이 사용하실 수 있을겁니다. 차후 시간 여유가 생긴다면 자주 쓰는 몇가지 기능들은 이곳에 정리해드리겠습니다.
