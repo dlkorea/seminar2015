@@ -11,36 +11,37 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <div id="header" class="container-fluid">
-        {% block header %}
-            <h1>게시판</h1>
-        {% endblock %}
-        </div>
-        <div id="main" class="container-fluid">
-        {% block main %}
-            <table>
-                <thead>
-                    <th>ID</th>
-                    <th>제목</th>
-                    <th>글쓴이</th>
-                    <th>날짜</th>
-                </thead>
-                <tbody>
-                    {% for article in articles %}
-                    <tr>
-                        <td>{{ article.id }}</td>
-                        <td><a href="{{ url_for('read', article_id=article.id) }}">{{ article.title }}</a></td>
-                        <td>{{ article.author }}</td>
-                        <td>{{ article.published_at }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <a href="{{ url_for('write') }}">글쓰기</a>
-        {% endblock %}
-        <div id="footer" class="container-fluid">
-        {% block footer %}
-        {% endblock %}
+        <div id="body_wrapper">
+            <div id="header" class="container-fluid">
+                <h1>게시판</h1>
+            </div>
+            <div id="main" class="container-fluid">
+            {% block main %}
+                <table>
+                    <thead>
+                        <th>ID</th>
+                        <th>제목</th>
+                        <th>글쓴이</th>
+                        <th>날짜</th>
+                    </thead>
+                    <tbody>
+                        {% for article in articles %}
+                        <tr>
+                            <td>{{ article.id }}</td>
+                            <td><a href="{{ url_for('read', article_id=article.id) }}">{{ article.title }}</a></td>
+                            <td>{{ article.author }}</td>
+                            <td>{{ article.published_at }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <a href="{{ url_for('write') }}">글쓰기</a>
+            {% endblock %}
+            <div id="footer" class="container-fluid">
+                <div class="container-fluid">
+                  <p>2015 가을학기 파이썬 웹프로그래밍 세미나 수업 자료</p>
+                </div>
+            </div>
         </div>
     </body>
 </html>

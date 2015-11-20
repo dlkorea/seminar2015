@@ -40,6 +40,7 @@ def read(article_id):
     comments = Comment.query.filter_by(article_id=article_id).all()
     return render_template('read.html', article=article, comments=comments)
 
+
 @app.route('/write', methods=['GET', 'POST'])
 def write():
     if request.method == 'GET':
