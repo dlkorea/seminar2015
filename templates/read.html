@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>{{ article.title }}</title>
+	</head>
+	<body>
+		<h1>{{ article.title }}</h1>
+		<div>
+			<p>{{ article.author }}</p>
+			<p>{{ article.published_at }}</p>
+		</div>
+		<div class="content">
+			{{ article.content }}
+		</div>
+		<a href="{{ url_for('modify', article_id=article.id) }}">글 수정</a> |
+		<a href="{{ url_for('delete', article_id=article.id) }}">글 삭제</a> |
+		<a href="{{ url_for('index') }}">글 목록</a>
+		<h2>댓글</h2>
+		<ul>
+			{% for comment in comments %}
+			<li>
+				<p>{{ comment.author }}({{ comment.published_at }})</p>
+				<div>
+					{{ comment.content }}
+				</div>
+				<a href="{{ url_for('delete_comment', comment_id=comment.id )}}">댓글 삭제</a>
+			</li>
+			{% endfor %}
+		</ul>
+		<h3>댓글 쓰기</h3>
+		<form method="post" action="{{ url_for('write_comment', article_id=article.id) }}">
+			<input type="text" name="author" placeholder="작성자"><br>
+			<textarea name="content" placeholder="내용"></textarea><br>
+			<button type="submit">댓글 쓰기</button>
+		</form>
+	</body>
+</html>

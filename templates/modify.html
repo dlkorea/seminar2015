@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>{{ article.title }} 수정하기</title>	
+	</head>
+	<body>
+		<form action="{{ url_for('modify', article_id=article.id) }}" method="post">
+			<input type="text" name="author" placeholder="글쓴이" value="{{ article.author }}">
+			<input type="text" name="title" placeholder="제목" value="{{ article.title }}">
+			<textarea name="content" placeholder="내용">{{ article.content }}</textarea>
+			<button type="submit">수정</button>
+		</form>
+	</body>
+</html>

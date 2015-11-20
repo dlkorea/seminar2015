@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Write</title>	
+	</head>
+	<body>
+		<form action="{{ url_for('write') }}" method="post">
+			<input type="text" name="author" placeholder="글쓴이">
+			<input type="text" name="title" placeholder="제목">
+			<textarea name="content" placeholder="내용">
+			</textarea>
+			<button type="submit">확인</button>
+		</form>
+	</body>
+</html>
