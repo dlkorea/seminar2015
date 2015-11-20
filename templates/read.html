@@ -4,13 +4,20 @@
 {% block title %}{{ article.title }}{% endblock %}
 
 {% block main %}
-<h1>{{ article.title }}</h1>
-<div>
-	<p>{{ article.author }}</p>
-	<p>{{ article.published_at }}</p>
+<div id="read_title_area">
+	<h2>{{ article.title }}</h2>
+	<div class="row">
+		<div class="col-sm-2 col-xs-2">
+			<h5 style="margin-left: 30px; font-weight: bold;">{{ article.author }}</h5>
+		</div>
+		<div class="col-sm-3 col-xs-3">
+			<h5>{{ article.published_at }}</h5>
+		</div>
+	</div>
+	<hr>
 </div>
-<div class="content">
-	{{ article.content }}
+<div id="read_content">
+	<p>{{ article.content }}</p>
 </div>
 <a href="{{ url_for('modify', article_id=article.id) }}">글 수정</a> |
 <a href="{{ url_for('delete', article_id=article.id) }}">글 삭제</a> |

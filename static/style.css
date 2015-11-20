@@ -52,3 +52,17 @@ html {
   text-align: center;
   margin-top: 20px;
 }
+
+
+/* read.html */
+#read_title_area h2 {
+  margin-top: 15px;
+  margin-left: 25px;
+  /*text-align: center;*/
+}
+#read_title_area h5 {
+  margin: 0;
+}
+#read_title_area hr {
+  margin-top: 10px;
+}
