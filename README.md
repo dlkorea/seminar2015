@@ -42,9 +42,13 @@
 
 버튼을 예를 들어 살펴봅시다. html에서 기본 제공하는 버튼은 실서비스에 사용하기에는 너무 투박합니다. Bootsrap에서는 몇가지 버튼 형태를 기본적으로 제공합니다. 사용하기 위해서는 앞서 말씀드렸듯이 클래스만 추가해주시면 됩니다. 아래의 예를 참고하세요.
 
+기본 버튼
+<button>글쓰기</button>
 ```
 <button class="btn btn-lg btn-primary">글쓰기</button>
 ```
+위 코드로 생성된 버튼
+<button class="btn btn-lg btn-primary">글쓰기</button>
 
 Bootstrap을 개발중인 사이트에 적용하기 위해서는 크게 두가지 방법이 있습니다. 하나는 Bootstrap을 개발중인 폴더에 직접 저장하여 불러오는 방법, 다른 하나는 Bootstrap에서 기본 제공하는 CDN 서버에서 불러오는 방법입니다. 홈페이지(http://bootstrapk.com)에 시작하기 메뉴를 살펴보시면 자세한 설명이 나와있는데요. 일단은 CDN 서버에서 불러오는 방법을 사용해봅시다.
 
