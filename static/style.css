@@ -43,3 +43,12 @@ html {
   color: white;
   text-decoration: none;
 }
+
+.article_title {
+  margin: 0;
+  margin: 15px 0 10px 30px;
+}
+.article_author {
+  text-align: center;
+  margin-top: 20px;
+}
