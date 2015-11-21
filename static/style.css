@@ -80,3 +80,9 @@ html {
   margin-left: 10px;
   margin-right: 10px;
 }
+
+
+/* write.html */
+#write_area {
+  margin-top: 30px;
+}
