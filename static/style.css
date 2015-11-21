@@ -61,6 +61,8 @@ html {
 }
 #read_title_area h5 {
   margin: 0;
+  margin-left: 30px;
+  display: inline-block;
 }
 #read_title_area hr {
   margin-top: 10px;
