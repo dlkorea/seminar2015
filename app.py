@@ -38,7 +38,8 @@ def read(article_id):
         return redirect(url_for('index'))
 
     comments = Comment.query.filter_by(article_id=article_id).all()
-    return render_template('read.html', article=article, comments=comments)
+    comments_count = Comment.query.filter_by(article_id=article_id).count()
+    return render_template('read.html', article=article, comments=comments, comments_count=comments_count)
 
 
 @app.route('/write', methods=['GET', 'POST'])
