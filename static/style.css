@@ -3,7 +3,6 @@ html {
   position: relative;
   min-height: 100%;
   overflow-y: scroll;
-  letter-spacing: -2px;
 }
 #body_wrapper {
   margin-bottom: 61px;
