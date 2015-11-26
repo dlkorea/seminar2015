@@ -23,16 +23,20 @@ class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Unicode(255))
     content = db.Column(db.UnicodeText)
-    author = db.Column(db.Unicode(255))
+    author_username = db.Column(db.Unicode(255), db.ForeignKey('user.username'))
     published_at = db.Column(db.DateTime, default=datetime.datetime.now)
+
+    author = db.relationship('User', backref='articles')
 
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.UnicodeText)
-    author = db.Column(db.Unicode(255))
+    author_username = db.Column(db.Unicode(255), db.ForeignKey('user.username'))
     article_id = db.Column(db.Integer)
     published_at = db.Column(db.DateTime, default=datetime.datetime.now)
+
+    author = db.relationship('User', backref='comments')
 
 
 @app.route('/')
@@ -54,13 +58,17 @@ def read(article_id):
 
 @app.route('/write', methods=['GET', 'POST'])
 def write():
+    if g.user is None:
+        flash('글을 작성하시려면 로그인하셔야 합니다.')
+        return redirect(url_for('login'))
+
     if request.method == 'GET':
         return render_template('write.html')
+
     title = request.form.get('title', '')
     content = request.form.get('content', '')
-    author = request.form.get('author', '')
 
-    article = Article(title=title, content=content, author=author)
+    article = Article(author=g.user, title=title, content=content)
     db.session.add(article)
     db.session.commit()
 
@@ -97,10 +105,16 @@ def delete(article_id):
 
 @app.route('/<int:article_id>/comment', methods=['POST'])
 def write_comment(article_id):
+    if g.user is None:
+        flash('댓글 작성하시려면 로그인하셔야 합니다.')
+        return redirect('login')
+
     article = Article.query.filter_by(id=article_id).first()
+
     if article is None:
         return redirect(url_for('/'))
-    comment = Comment(article_id=article_id, content=request.form['content'], author=request.form['author'])
+
+    comment = Comment(article_id=article_id, content=request.form['content'], author=g.user)
     db.session.add(comment)
     db.session.commit()
 
@@ -138,6 +152,8 @@ def register():
         flash('중복된 아이디나 닉네임입니다.')
         return redirect(url_for('register'))
 
+    session['logined_username'] = username
+
     return redirect(url_for('index'))
 
 
@@ -153,6 +169,7 @@ def login():
     user = User.query.filter_by(username=username, password=hashed_password).first()
 
     if user is None:
+        flash('유효하지 않은 계정입니다. 회원 가입 후 이용하세요.')
         return redirect(url_for('login'))
     session['logined_username'] = username
 
@@ -171,7 +188,7 @@ def logout():
 @app.before_request
 def set_user():
     try:
-        g.user = User.query.filter_by(username=session['logined_username']).first().username
+        g.user = User.query.filter_by(username=session['logined_username']).first()
     except:
         g.user = None
 

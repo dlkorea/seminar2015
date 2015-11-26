@@ -19,7 +19,7 @@
             </div>
             <div id="login_area">
             {% if user %}
-                <h5 class="text-center">{{ user }}님 환영합니다. <a href="{{ url_for('logout') }}">로그아웃</a></h5>
+                <h5 class="text-center">{{ user.username }}님 환영합니다. <a href="{{ url_for('logout') }}">로그아웃</a></h5>
             {% else %}
                 <div class="col-xs-4 col-sm-4 col-xs-offset-2 col-sm-offset-2">
                     <a href="{{ url_for('login') }}">로그인</a>
@@ -48,7 +48,7 @@
                                     <h2 class="article_title">{{ article.title }}</h2>
                                 </div>
                                 <div class="col-sm-4 col-xs-4">
-                                    <h4 class="article_author">{{ article.author }}</h4>
+                                    <h4 class="article_author">{{ article.author.username }}</h4>
                                 </div>
                             </div>
                         </a>
@@ -59,6 +59,13 @@
                     </div>
                 </div>
             {% endblock %}
+            <div class="row">
+              <div class="col-xs-10 col-sm-10 col-xs-offset-1 col-sm-offset-1 text-center">
+              {% for message in get_flashed_messages() %}
+                <h5 class="text-center" style="color: red;">{{ message }}</h5>
+              {% endfor %}
+              </div>
+            </div>
             <div id="footer" class="container-fluid">
                 <div class="container-fluid">
                   <p>2015 가을학기 파이썬 웹프로그래밍 세미나 수업 자료</p>
