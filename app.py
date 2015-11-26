@@ -12,6 +12,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SECRET_KEY'] = 'sdflkjsdfsdfsdf'
 db = SQLAlchemy(app)
 
+article_like = db.Table(
+    'article_like',
+    db.Column('username', db.Unicode(255), db.ForeignKey('user.username')),
+    db.Column('article_id', db.Integer, db.ForeignKey('article.id'))
+)
+
+comment_like = db.Table(
+    'comment_like',
+    db.Column('username', db.Unicode(255), db.ForeignKey('user.username')),
+    db.Column('comment_id', db.Integer, db.ForeignKey('comment.id'))
+)
+
 
 class User(db.Model):
     username = db.Column(db.Unicode(255), primary_key=True)
@@ -28,6 +40,8 @@ class Article(db.Model):
 
     author = db.relationship('User', backref='articles')
 
+    liked_users = db.relationship('User', secondary='article_like', backref='liked_articles')
+
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -37,6 +51,8 @@ class Comment(db.Model):
     published_at = db.Column(db.DateTime, default=datetime.datetime.now)
 
     author = db.relationship('User', backref='comments')
+
+    liked_users = db.relationship('User', secondary='comment_like', backref='liked_comments')
 
 
 @app.route('/')
@@ -111,6 +127,27 @@ def delete(article_id):
     return redirect(url_for('index'))
 
 
+@app.route('/like/article/<int:article_id>')
+def like_article(article_id):
+    article = Article.query.filter_by(id=article_id).first()
+
+    if article is None:
+        flash('잘못된 경로로 접근하여 초기화면으로 이동하였습니다.')
+        return redirect(url_for('/'))
+
+    if g.user is None:
+        flash('로그인 후 이용 가능합니다.')
+        return redirect(url_for('login'))
+
+    if g.user in article.liked_users:
+        article.liked_users.remove(g.user)
+    else:
+        article.liked_users.append(g.user)
+
+    db.session.commit()
+    return redirect(url_for('read', article_id=article.id))
+
+
 @app.route('/<int:article_id>/comment', methods=['POST'])
 def write_comment(article_id):
     if g.user is None:
@@ -141,6 +178,27 @@ def delete_comment(comment_id):
         return redirect(url_for('index'))
 
     db.session.delete(comment)
+    db.session.commit()
+    return redirect(url_for('read', article_id=comment.article_id))
+
+
+@app.route('/like/comment/<int:comment_id>')
+def like_comment(comment_id):
+    comment = Comment.query.filter_by(id=comment_id).first()
+
+    if comment is None:
+        flash('잘못된 경로로 접근하여 초기화면으로 이동하였습니다.')
+        return redirect(url_for('/'))
+
+    if g.user is None:
+        flash('로그인 후 이용 가능합니다.')
+        return redirect(url_for('login'))
+
+    if g.user in comment.liked_users:
+        comment.liked_users.remove(g.user)
+    else:
+        comment.liked_users.append(g.user)
+
     db.session.commit()
     return redirect(url_for('read', article_id=comment.article_id))
 
