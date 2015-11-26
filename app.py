@@ -79,7 +79,11 @@ def write():
 def modify(article_id):
     article = Article.query.filter_by(id=article_id).first()
     if article is None:
-        return redirect('/')
+        return redirect(url_for('/'))
+
+    if article.author != g.user:
+        flash('잘못된 경로로 접근하여 초기화면으로 이동하였습니다.')
+        return redirect(url_for('index'))
 
     if request.method == 'GET':
         return render_template('modify.html', article=article)
@@ -98,6 +102,10 @@ def delete(article_id):
     if article is None:
         return redirect(url_for('/'))
 
+    if article.author != g.user:
+        flash('잘못된 경로로 접근하여 초기화면으로 이동하였습니다.')
+        return redirect(url_for('index'))
+
     db.session.delete(article)
     db.session.commit()
     return redirect(url_for('index'))
@@ -107,7 +115,7 @@ def delete(article_id):
 def write_comment(article_id):
     if g.user is None:
         flash('댓글 작성하시려면 로그인하셔야 합니다.')
-        return redirect('login')
+        return redirect(url_for('login'))
 
     article = Article.query.filter_by(id=article_id).first()
 
@@ -126,6 +134,10 @@ def delete_comment(comment_id):
     comment = Comment.query.filter_by(id=comment_id).first()
 
     if comment is None:
+        return redirect(url_for('index'))
+
+    if comment.author != g.user:
+        flash('잘못된 경로로 접근하여 초기화면으로 이동하였습니다.')
         return redirect(url_for('index'))
 
     db.session.delete(comment)
