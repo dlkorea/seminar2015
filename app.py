@@ -1,12 +1,22 @@
 # app.py
 import datetime
+import hashlib
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, g, flash
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import IntegrityError
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+app.config['SECRET_KEY'] = 'sdflkjsdfsdfsdf'
 db = SQLAlchemy(app)
+
+
+class User(db.Model):
+    username = db.Column(db.Unicode(255), primary_key=True)
+    password = db.Column(db.Unicode(255))
+    nickname = db.Column(db.Unicode(20), unique=True)
 
 
 class Article(db.Model):
@@ -108,6 +118,67 @@ def delete_comment(comment_id):
     db.session.commit()
     return redirect(url_for('read', article_id=comment.article_id))
 
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'GET':
+        return render_template('register.html')
+    username = request.form['username']
+    password = request.form['password']
+    hashed_password = hashlib.sha1(password.encode('utf-8')).hexdigest()
+    nickname = request.form['nickname']
+
+    user = User(username=username, password=hashed_password, nickname=nickname)
+
+    db.session.add(user)
+    try:
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        flash('중복된 아이디나 닉네임입니다.')
+        return redirect(url_for('register'))
+
+    return redirect(url_for('index'))
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+
+    username = request.form['username']
+    password = request.form['password']
+    hashed_password = hashlib.sha1(password.encode('utf-8')).hexdigest()
+
+    user = User.query.filter_by(username=username, password=hashed_password).first()
+
+    if user is None:
+        return redirect(url_for('login'))
+    session['logined_username'] = username
+
+    return redirect(url_for('index'))
+
+
+@app.route('/logout')
+def logout():
+    try:
+        del session['logined_username']
+    except:
+        pass
+    return redirect(url_for('index'))
+
+
+@app.before_request
+def set_user():
+    try:
+        g.user = User.query.filter_by(username=session['logined_username']).first().username
+    except:
+        g.user = None
+
+
+@app.context_processor
+def inject_user():
+    return dict(user=g.user)
 
 if __name__ == '__main__':
     app.run(debug=True)
